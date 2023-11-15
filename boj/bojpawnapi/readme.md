@@ -1,8 +1,24 @@
-#How to Run
+# Schema
+
+![sampleSchema](./sampleSchema.png)
+
+# How to Run
+
 Note: In dotnet 7 add -lp --launch-profile 
 ```shell
 dotnet run --launch-profile https
 ```
+
+# API
+
+https://localhost:7021/swagger
+
+
+# Issues
+
+
+
+# Other 
 
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Design
