@@ -1,0 +1,11 @@
+namespace bojpawnapi.Entities
+{
+    public class PersonBaseEntities
+    {
+        public string IdCardNo {get; set;}
+        public string FirstName {get; set;}
+
+        public string LastName {get; set;}
+        public string Address {get; set;}
+    }
+}
