@@ -32,6 +32,9 @@ dotnet ef migrations list --project DbExploration.csproj
 Update database with pending migrations
 dotnet ef database update --project DbExploration.csproj
 
+ถ้ามีแก้ Field
+dotnet ef migrations add firstmigration
+
 ```
 System.InvalidOperationException: Unable to resolve service for type 'bojpawnapi.Service.ICollateralService' while attempting to activate 'bojpawnapi.Controller.CollateralsController'.
    at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
