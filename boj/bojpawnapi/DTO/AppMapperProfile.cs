@@ -16,6 +16,10 @@ namespace bojpawnapi.DTO
 
             CreateMap<CustomerDTO, CustomerEntities>().ReverseMap();
             CreateMap<EmployeeDTO, EmployeeEntities>().ReverseMap();
+
+
+            CreateMap<CollateralTxDTO, CollateralTxDTO>();
+            CreateMap<CollateralTxDetailDTO, CollateralTxDetailDTO>();
         }
     }   
 }

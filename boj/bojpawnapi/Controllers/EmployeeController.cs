@@ -24,11 +24,27 @@ namespace bojpawnapi.Controller
             var employeeList = await _employeeService.GetEmployeesAsync();
             if (employeeList != null)
             {
-                return Ok(employeeList);
+                var response = new APIResponseDTO<IEnumerable<EmployeeDTO>>
+                {
+                    Code = "S201-002-01",
+                    Message = "Get Employees successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = employeeList
+                };
+                return Ok(response);
             }
             else
             {
-                return NoContent();
+                var response = new APIResponseDTO<IEnumerable<EmployeeDTO>>
+                {
+                    Code = "S204-002-01",
+                    Message = "Get Employee But No Content",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status204NoContent, response); 
+
             }
         }
 
@@ -37,33 +53,29 @@ namespace bojpawnapi.Controller
         public async Task<ActionResult<EmployeeDTO>> GetEmployee(int id)
         {
             var employee = await _employeeService.GetEmployeeByIdAsync(id);
-
+            var response = new APIResponseDTO<EmployeeDTO>();
             if (employee == null)
             {
-                return NotFound();
+                response = new APIResponseDTO<EmployeeDTO>
+                {
+                    Code = "E404-002-02",
+                    Message = "Get Employee " + id + " But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
+
             }
 
-            return Ok(employee);
-        }
-
-        // PUT: api/Employees/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(int id, EmployeeDTO employee)
-        {
-            if (id != employee.EmployeeId)
+            response = new APIResponseDTO<EmployeeDTO>
             {
-                return BadRequest();
-            }
-
-            var result = await _employeeService.UpdateEmployeeAsync(employee);
-            if (result)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
+                Code = "S200-002-02",
+                Message = "Get Employee: " + id,
+                Description = "Request successful",
+                Timestamp = DateTime.UtcNow,
+                Data = employee
+            };
+            return Ok(response);
         }
 
         // POST: api/Employees
@@ -73,11 +85,70 @@ namespace bojpawnapi.Controller
             var result = await _employeeService.AddEmployeeAsync(employee);
             if (result != null)
             {
-                return CreatedAtAction(nameof(GetEmployee), new { id = result.EmployeeId }, result);
+                var response = new APIResponseDTO<EmployeeDTO>
+                {
+                    Code = "S201-002-03",
+                    Message = "Employee created successfully",
+                    Description = "The item was added to the database",
+                    Timestamp = DateTime.UtcNow,
+                    Data = result
+                };
+
+                return Ok(response);
             }
             else
             {
-                return BadRequest();
+                var response = new APIResponseDTO<EmployeeDTO>
+                {
+                    Code = "E400-002-03",
+                    Message = "Insert Employee But Bad Request",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest, response);
+            }
+        }
+
+        // PUT: api/Employees/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutEmployee(int id, EmployeeDTO employee)
+        {
+            if (id != employee.EmployeeId)
+            {
+                var response = new APIResponseDTO<CustomerDTO>
+                {
+                    Code = "E400-002-04",
+                    Message = "Update Employee But id mismatch",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest, response);
+            }
+
+            var result = await _employeeService.UpdateEmployeeAsync(employee);
+            if (result)
+            {
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "S201-002-04",
+                    Message = "Update Employee " + id + " successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = result
+                };
+                return Ok(response);
+            }
+            else
+            {
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "E404-002-05",
+                    Message = "Update Employee But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = false
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
             }
         }
 
@@ -88,11 +159,27 @@ namespace bojpawnapi.Controller
             var result = await _employeeService.DeleteEmployeeAsync(id);
             if (result)
             {
-                return Ok();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "S200-002-05",
+                    Message = "Delete Employee " + id + " successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = true
+                };
+                return Ok(response);
             }
             else
             {
-                return NotFound();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "E404-002-05",
+                    Message = "Delete Employee " + id + " But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = false
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
             }
         }
     }

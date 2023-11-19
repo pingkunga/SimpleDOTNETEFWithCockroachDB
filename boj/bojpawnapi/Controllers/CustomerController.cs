@@ -22,11 +22,28 @@ namespace bojpawnapi.Controller
             var customerList = await _customerService.GetCustomersAsync();
             if (customerList != null)
             {
-                return Ok(customerList);
+                var response = new APIResponseDTO<IEnumerable<CustomerDTO>>
+                {
+                    Code = "S201-001-01",
+                    Message = "Get Customers successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = customerList
+                };
+                return Ok(response);
             }
             else
             {
-                return NoContent();
+                var response = new APIResponseDTO<IEnumerable<CustomerDTO>>
+                {
+                    Code = "S204-001-01",
+                    Message = "Get Customers But No Content",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                };
+                //return NoContent(response);
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status204NoContent, response); 
+
             }
         }
         //GET by id
@@ -34,13 +51,30 @@ namespace bojpawnapi.Controller
         public async Task<ActionResult<CustomerDTO>> GetCustomer(int id)
         {
             var customer = await _customerService.GetCustomerByIdAsync(id);
-
+            var response = new APIResponseDTO<CustomerDTO>();
             if (customer == null)
             {
-                return NotFound();
+                //return NotFound();
+                response = new APIResponseDTO<CustomerDTO>
+                {
+                    Code = "E404-001-02",
+                    Message = "Get Customer " + id + " But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
+
             }
 
-            return Ok(customer);
+            response = new APIResponseDTO<CustomerDTO>
+            {
+                Code = "S200-001-02",
+                Message = "Get Customer: " + id,
+                Description = "Request successful",
+                Timestamp = DateTime.UtcNow,
+                Data = customer
+            };
+            return Ok(response);
         }
 
         //POST
@@ -50,11 +84,30 @@ namespace bojpawnapi.Controller
             var result = await _customerService.AddCustomerAsync(customer);
             if (result != null)
             {
-                return CreatedAtAction(nameof(GetCustomer), new { id = result.CustomerId }, result);
+                //return CreatedAtAction(nameof(GetCustomer), new { id = result.CustomerId }, result);
+
+                var response = new APIResponseDTO<CustomerDTO>
+                {
+                    Code = "S201-001-03",
+                    Message = "Customers created successfully",
+                    Description = "The item was added to the database",
+                    Timestamp = DateTime.UtcNow,
+                    Data = result
+                };
+
+                return Ok(response);
             }
             else
             {
-                return BadRequest();
+                //return BadRequest();
+                var response = new APIResponseDTO<CustomerDTO>
+                {
+                    Code = "E400-001-03",
+                    Message = "Insert Customer But Bad Request",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest, response);
             }
         }
 
@@ -64,17 +117,41 @@ namespace bojpawnapi.Controller
         {
             if (id != customer.CustomerId)
             {
-                return BadRequest();
+                var response = new APIResponseDTO<CustomerDTO>
+                {
+                    Code = "E400-001-04",
+                    Message = "Update Customer But id mismatch",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest, response);
             }
 
             var result = await _customerService.UpdateCustomerAsync(customer);
             if (result)
             {
-                return Ok();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "S201-001-04",
+                    Message = "Update Customer " + id + " successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = result
+                };
+                return Ok(response);
             }
             else
             {
-                return NotFound();
+                //return NotFound();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "E404-001-05",
+                    Message = "Update Customer But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = false
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
             }
         }
 
@@ -85,11 +162,27 @@ namespace bojpawnapi.Controller
             var result = await _customerService.DeleteCustomerAsync(id);
             if (result)
             {
-                return Ok();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "S200-001-05",
+                    Message = "Delete Customer " + id + " successful",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = true
+                };
+                return Ok(response);
             }
             else
             {
-                return NotFound();
+                var response = new APIResponseDTO<bool>
+                {
+                    Code = "E404-001-05",
+                    Message = "Delete Customer " + id + " But Not Found",
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow,
+                    Data = false
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status404NotFound, response); 
             }
         }
     }

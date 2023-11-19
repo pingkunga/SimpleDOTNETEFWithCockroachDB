@@ -13,5 +13,5 @@ namespace bojpawnapi.DTO
         {
             Timestamp = DateTime.UtcNow;
         }
-    }
+    } 
 }

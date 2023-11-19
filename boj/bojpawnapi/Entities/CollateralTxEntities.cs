@@ -8,6 +8,7 @@ namespace bojpawnapi.Entities
         public String CollateralCode {get; set;}
         public string Store {get; set;}
 
+        public int PrevCollateralId {get; set;} //เอาไว้ใช้กรณีต่อดอกเบี้ย
         public int CustomerId {get; set;}
         public CustomerEntities Customer {get; set;}
 

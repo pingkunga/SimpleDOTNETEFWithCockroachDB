@@ -10,6 +10,13 @@ namespace bojpawnapi.Service
 {
     public class CollateralTxService : ICollateralTxService
     {
+        private readonly string STATUS_PAWN = "PAWN";
+        private readonly string STATUS_ROLL = "ROLL_PAWN";   //ต่อดอก
+        private readonly string STATUS_REDEEM = "REDEEM";   //ไถ่ถอน
+        private readonly string STATUS_DROP = "DROP";   //หลุดจำนำ
+
+        private readonly decimal INTERESTRATE = 3.0M;
+
         private readonly PawnDBContext _context;
         private readonly IMapper _mapper;
         public CollateralTxService(PawnDBContext context, IMapper mapper)
@@ -53,6 +60,11 @@ namespace bojpawnapi.Service
             }
         }
 
+        /// <summary>
+        ///     ใชตอนครั้งแรก
+        /// </summary>
+        /// <param name="pCollateralPayload"></param>
+        /// <returns></returns>
         public async Task<CollateralTxDTO> AddCollateralTxAsync(CollateralTxDTO pCollateralPayload)
         {
             var CollateralTxEntities = _mapper.Map<CollateralTxEntities>(pCollateralPayload);
@@ -67,6 +79,63 @@ namespace bojpawnapi.Service
             {
                 return null;
             }
+        }
+
+        public async Task<CollateralTxDTO> AddPawnCollateralTxAsync(CollateralTxDTO pCollateralPayload)
+        {
+            pCollateralPayload.StatusCode = STATUS_PAWN;
+            //pCollateralPayload.CreateDate = DateTime.UtcNow;
+            pCollateralPayload.CollateralCode = GetCollateralCode();
+            pCollateralPayload.Interest = CalcInterestRate(pCollateralPayload.LoanAmt, INTERESTRATE);
+            return await AddCollateralTxAsync(pCollateralPayload);
+        }
+
+        public async Task<CollateralTxDTO> AddRolloverCollateralTxAsync(CollateralTxDTO pCollateralPayload)
+        {
+            try
+            {
+                int OldRefId = pCollateralPayload.CollateralId;
+                //ปิดสัญญาเดิม
+                pCollateralPayload.StatusCode = STATUS_ROLL;
+                var result = await UpdateCollateralTxAsync(pCollateralPayload);
+                if (result)
+                {
+                    //สร้างสัญญาใหม่
+                    CollateralTxDTO newPawn = _mapper.Map<CollateralTxDTO>(pCollateralPayload);
+                    newPawn.PrevCollateralId = OldRefId;
+                    newPawn.CollateralCode = GetCollateralCode();
+                    newPawn.StatusCode = STATUS_PAWN;
+                    newPawn.Interest = CalcInterestRate(pCollateralPayload.LoanAmt, INTERESTRATE);
+
+                    return await AddCollateralTxAsync(newPawn);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch(Exception ex)
+            {
+                //Someone help me
+                throw ex;
+            }
+        }
+
+        public async Task<bool> AddRedeemCollateralTxAsync(CollateralTxDTO pCollateralPayload)
+        {
+            //ปิดสัญญาเดิม
+            pCollateralPayload.StatusCode = STATUS_REDEEM;
+            return await UpdateCollateralTxAsync(pCollateralPayload);
+        }
+
+        public string GetCollateralCode()
+        {
+            return "COLL" + DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+        }
+
+        public decimal CalcInterestRate(decimal pLoanAmt, decimal pInterestRate)
+        {
+            return pLoanAmt * (pInterestRate / 100);
         }
 
         public async Task<bool> UpdateCollateralTxAsync(CollateralTxDTO pCollateralPayload)
