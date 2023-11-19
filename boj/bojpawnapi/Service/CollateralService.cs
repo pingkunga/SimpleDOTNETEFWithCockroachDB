@@ -8,11 +8,11 @@ using bojpawnapi.Entities;
 
 namespace bojpawnapi.Service
 {
-    public class CollateralService : ICollateralService
+    public class CollateralTxService : ICollateralTxService
     {
         private readonly PawnDBContext _context;
         private readonly IMapper _mapper;
-        public CollateralService(PawnDBContext context, IMapper mapper)
+        public CollateralTxService(PawnDBContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;

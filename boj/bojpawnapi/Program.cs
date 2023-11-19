@@ -15,7 +15,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add services to the container.
-builder.Services.AddScoped<ICollateralService, CollateralService>();
+builder.Services.AddScoped<ICollateralTxService, CollateralTxService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
 builder.Services.AddDbContext<PawnDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("BojPawnDbConnection")));
 

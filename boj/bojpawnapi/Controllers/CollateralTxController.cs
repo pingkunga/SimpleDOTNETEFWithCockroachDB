@@ -6,20 +6,20 @@ namespace bojpawnapi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CollateralsController : ControllerBase
+    public class CollateralsTxController : ControllerBase
     {
-        private readonly ICollateralService _collateralService;
+        private readonly ICollateralTxService _collateralTxService;
 
-        public CollateralsController(ICollateralService collateralService)
+        public CollateralsTxController(ICollateralTxService collateralTxService)
         {
-            _collateralService = collateralService;
+            _collateralTxService = collateralTxService;
         }
 
         // GET: api/Collaterals
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CollateralTxDTO>>> GetCollateralTxs()
         {
-            var collateralList = await _collateralService.GetCollateralTxsAsync();
+            var collateralList = await _collateralTxService.GetCollateralTxsAsync();
             if (collateralList != null)
             {
                 return Ok(collateralList);
@@ -34,7 +34,7 @@ namespace bojpawnapi.Controller
         [HttpGet("{id}")]
         public async Task<ActionResult<CollateralTxDTO>> GetCollateralTx(int id)
         {
-            var collateralTx = await _collateralService.GetCollateralTxByIdAsync(id);
+            var collateralTx = await _collateralTxService.GetCollateralTxByIdAsync(id);
 
             if (collateralTx == null)
             {
@@ -53,7 +53,7 @@ namespace bojpawnapi.Controller
                 return BadRequest();
             }
 
-            var result = await _collateralService.UpdateCollateralTxAsync(collateralTx);
+            var result = await _collateralTxService.UpdateCollateralTxAsync(collateralTx);
             if (result)
             {
                 return Ok();
@@ -68,7 +68,7 @@ namespace bojpawnapi.Controller
         [HttpPost]
         public async Task<ActionResult<CollateralTxDTO>> PostCollateralTx(CollateralTxDTO collateralTx)
         {
-            var result = await _collateralService.AddCollateralTxAsync(collateralTx);
+            var result = await _collateralTxService.AddCollateralTxAsync(collateralTx);
             if (result != null)
             {
                 return CreatedAtAction("GetCollateralTx", new { id = result.CollateralId }, result);
@@ -83,7 +83,7 @@ namespace bojpawnapi.Controller
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteCollateralTx(int id)
         {
-            var result = await _collateralService.DeleteCollateralTxAsync(id);
+            var result = await _collateralTxService.DeleteCollateralTxAsync(id);
             if (result)
             {
                 return Ok();

@@ -1,7 +1,7 @@
 using bojpawnapi.DTO;
 namespace bojpawnapi.Service
 {
-    public interface ICollateralService
+    public interface ICollateralTxService
     {
         Task<CollateralTxDTO> GetCollateralTxByIdAsync(int id);
         Task<IEnumerable<CollateralTxDTO>> GetCollateralTxsAsync();

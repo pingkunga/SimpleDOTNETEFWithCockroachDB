@@ -1,9 +1,9 @@
 using bojpawnapi.Entities;
 
-namespace bojpawnapi.Entities
+namespace bojpawnapi.DTO
 {
     public class CustomerDTO : PersonBaseEntities 
     {
-        public int EmployeeId {get; set;}
+        public int CustomerId {get; set;}
     }
 }

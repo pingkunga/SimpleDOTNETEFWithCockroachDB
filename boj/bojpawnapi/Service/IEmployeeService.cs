@@ -5,9 +5,9 @@ namespace bojpawnapi.Service
     public interface IEmployeeService
     {
         Task<IEnumerable<EmployeeDTO>> GetEmployeesAsync();
-        Task<EmployeeDTO> GetEmployeeByIdAsync(int employeeId);
-        Task<EmployeeDTO> AddEmployeeAsync(EmployeeDTO employee);
-        Task<bool> UpdateEmployeeAsync(EmployeeDTO employee);
-        Task<bool> DeleteEmployeeAsync(int employeeId);
+        Task<EmployeeDTO> GetEmployeeByIdAsync(int customerId);
+        Task<EmployeeDTO> AddEmployeeAsync(EmployeeDTO customer);
+        Task<bool> UpdateEmployeeAsync(EmployeeDTO customer);
+        Task<bool> DeleteEmployeeAsync(int customerId);
     }
 }

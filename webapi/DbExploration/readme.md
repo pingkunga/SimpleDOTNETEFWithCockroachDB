@@ -1,6 +1,11 @@
 dotnet new webapi -n DbExploration
 
+dotnet new webapi -n bojpawnapi
 
+dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection 
 https://www.cdata.com/kb/tech/cockroachdb-ado-codefirst.rst
 
 
