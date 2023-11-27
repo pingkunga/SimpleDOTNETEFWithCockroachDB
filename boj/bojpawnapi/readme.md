@@ -14,6 +14,22 @@ dotnet run --launch-profile https
 https://localhost:7021/swagger
 
 
+# cockroachdb
+
+Web GUI
+
+```bash
+kubectl port-forward service/cockroachdb-public 8080 -n g1dev
+```
+
+Web GUI : https://localhost:8080
+
+Access DB
+
+```bash
+kubectl port-forward service/cockroachdb-public 26257 -n g1dev
+```
+
 # Issues
 
 
@@ -33,7 +49,7 @@ Update database with pending migrations
 dotnet ef database update --project DbExploration.csproj
 
 ถ้ามีแก้ Field
-dotnet ef migrations add firstmigration
+dotnet ef migrations add secodtmigration
 
 ```
 System.InvalidOperationException: Unable to resolve service for type 'bojpawnapi.Service.ICollateralService' while attempting to activate 'bojpawnapi.Controller.CollateralsController'.
@@ -71,4 +87,69 @@ sec-ch-ua-platform: "Windows"
 sec-fetch-site: same-origin
 sec-fetch-mode: cors
 sec-fetch-dest: empty
+```
+
+# PAWN
+
+```
+{
+  "collateralId": 0,
+  "collateralCode": "string",
+  "store": "inventory-1",
+  "prevCollateralId": 0,
+  "customerId": 1,
+  "loanAmt": 3000,
+  "startDate": "2023-11-26T15:26:35.124Z",
+  "endDate": "2023-12-26T15:26:35.124Z",
+  "interest": 0,
+  "paidDate": "2023-12-26T15:26:35.124Z",
+  "employeeId": 1,
+  "statusCode": "string",
+  "collateralDetaills": [
+    {
+      "collateralDetailId": 0,
+      "collateralId": 0,
+      "collateralItemNo": 1,
+      "collateralPrice": 3000
+    }
+  ]
+}
+```
+
+response
+```
+{
+  "code": "S201-003-10",
+  "message": "Pawn created successfully",
+  "description": "The item was added to the database",
+  "timestamp": "2023-11-26T15:28:59.1141251Z",
+  "data": {
+    "collateralId": 1,
+    "collateralCode": "COLL20231126152858",
+    "store": "inventory-1",
+    "prevCollateralId": 0,
+    "customerId": 1,
+    "loanAmt": 3000,
+    "startDate": "2023-11-26T15:26:35.124Z",
+    "endDate": "2023-12-26T15:26:35.124Z",
+    "interest": 90,
+    "paidDate": "2023-12-26T15:26:35.124Z",
+    "employeeId": 1,
+    "statusCode": "PAWN",
+    "collateralDetaills": [
+      {
+        "collateralDetailId": 1,
+        "collateralId": 1,
+        "collateralItemNo": 1,
+        "collateralPrice": 3000
+      }
+    ]
+  }
+}
+```
+
+# Rollover
+
+```
+
 ```
