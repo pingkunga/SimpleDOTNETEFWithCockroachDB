@@ -15,7 +15,7 @@ namespace bojpawnapi.Controller
             _customerService = customerService;
 
         }
-        //GET
+  
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerDTO>>> GetCustomers()
         {

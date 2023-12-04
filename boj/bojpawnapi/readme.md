@@ -27,11 +27,36 @@ Web GUI : https://localhost:8080
 Access DB
 
 ```bash
-kubectl port-forward service/cockroachdb-public 26257 -n g1dev
+kubectl port-forward service/cockroachdb-public 26257 -n group-1-bojdev
 ```
+
+# Test With Container
+
+## Run 
+
+```
+docker run -p 10600:80 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojback:0.0.1
+
+http://localhost:10600/swagger/index.html
+```
+
+## Build Locally
+
+```
+docker buildx build --load --platform linux/amd64 -t pingkunga/bojback:0.0.1 .
+docker buildx build --load --platform linux/arm64 -t pingkunga/bojback:0.0.1 .
+```
+
+## Build and Push
+
+```
+docker buildx build --push --platform linux/amd64,linux/arm64 -t pingkunga/bojback:0.0.1 .
+```
+
 
 # Issues
 
+* ARM Cannot Build
 
 
 # Other 
