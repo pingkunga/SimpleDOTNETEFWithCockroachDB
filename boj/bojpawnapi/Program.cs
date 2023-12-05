@@ -2,6 +2,8 @@ using bojpawnapi.DataAccess;
 using bojpawnapi.DTO;
 using Microsoft.EntityFrameworkCore;
 using bojpawnapi.Service;
+using HealthChecks.NpgSql;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+string connString = builder.Configuration.GetConnectionString("BojPawnDbConnection");
+builder.Services.AddHealthChecks().AddNpgSql(connString, tags: new[] { "startup" });
 
 // Add services to the container.
 builder.Services.AddScoped<ICollateralTxService, CollateralTxService>();
@@ -36,5 +41,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health/ready");
+app.MapHealthChecks("/health/startup", new HealthCheckOptions { Predicate = x => x.Tags.Contains("startup") });        
 
 app.Run();

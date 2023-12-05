@@ -39,7 +39,7 @@ kubectl port-forward service/cockroachdb-public 26257 -n group-1-bojdev
 docker run -p 10600:8090 --name bojapi pingkunga/bojpawnapi:0.0.2
 
 #DEV
-docker run -p 10600:8090 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojpawnapi:0.0.3
+docker run -p 10600:8090 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojpawnapi:0.0.4
 
 http://localhost:10600/swagger/index.html
 ```
@@ -56,7 +56,7 @@ docker buildx build --load --platform linux/arm64 -t pingkunga/bojpawnapi:0.0.1 
 ```
 docker buildx build --push --platform linux/amd64,linux/arm64 -t pingkunga/bojpawnapi:0.0.1 .
 
-docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.3 .
+docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.4 .
 ```
 
 
@@ -67,12 +67,18 @@ docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.3 
 
 # Other 
 
+## Lib
+
+```bash
 dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection 
+```
 
+## EF Command
 
+```bash
 List out pending migrations
 dotnet ef migrations list --project DbExploration.csproj
 
@@ -81,7 +87,16 @@ dotnet ef database update --project DbExploration.csproj
 
 ถ้ามีแก้ Field
 dotnet ef migrations add secodtmigration
+```
 
+## Health Check
+
+* https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
+
+```bash
+https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
+
+dotnet add package AspNetCore.HealthChecks.Npgsql
 ```
 System.InvalidOperationException: Unable to resolve service for type 'bojpawnapi.Service.ICollateralService' while attempting to activate 'bojpawnapi.Controller.CollateralsController'.
    at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.GetService(IServiceProvider sp, Type type, Type requiredBy, Boolean isDefaultParameterRequired)
