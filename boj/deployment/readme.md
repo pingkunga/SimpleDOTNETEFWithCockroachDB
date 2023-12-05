@@ -3,17 +3,18 @@
 ```
 kubectl create configmap bojpawnapiconfig --from-file=../../bojpawnapi/appsettings.json -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapiconfig.yaml
 
-kubectl create deployment bojpawnapi --image=pingkunga/bojpawnapi:0.0.1 -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapi.yaml
+kubectl create deployment bojpawnapi --image=pingkunga/bojpawnapi:0.0.3 -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapi.yaml
 
 kubectl expose deployment bojpawnapi --name=bojpawnapi-svc --port=80 --target-port=80 -n group-1-bojdev -o yaml --dry-run=client -o yaml > dev_bojpawnapi-svc.yaml
 ```
 
 Apply Change
 
+kubectl get deployment,pod,svc -n group-1-bojdev 
 
 # Export BackEnd for Dev
 
-kubectl port-forward deploy/bojpawnapi 80:80 -n group-1-bojdev
+kubectl port-forward deploy/bojpawnapi 80:8090 -n group-1-bojdev
 
 http://localhost/swagger/index.html
 

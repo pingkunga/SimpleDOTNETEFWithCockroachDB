@@ -30,6 +30,9 @@ USER bojapp
 
 COPY --from=build /src/output .
 
-#EXPOSE 8080
+#For NET 6-7 
+#Default NET8 is 8080
+ENV ASPNETCORE_URLS=http://+:8090
+EXPOSE 8090
 
 ENTRYPOINT [ "dotnet", "bojpawnapi.dll" ]

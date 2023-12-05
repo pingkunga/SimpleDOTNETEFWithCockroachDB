@@ -36,10 +36,10 @@ kubectl port-forward service/cockroachdb-public 26257 -n group-1-bojdev
 
 ```
 #PROD
-docker run -p 10600:80 --name bojapi pingkunga/bojback:0.0.1
+docker run -p 10600:8090 --name bojapi pingkunga/bojpawnapi:0.0.2
 
 #DEV
-docker run -p 10600:80 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojback:0.0.1
+docker run -p 10600:8090 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojpawnapi:0.0.3
 
 http://localhost:10600/swagger/index.html
 ```
@@ -56,7 +56,7 @@ docker buildx build --load --platform linux/arm64 -t pingkunga/bojpawnapi:0.0.1 
 ```
 docker buildx build --push --platform linux/amd64,linux/arm64 -t pingkunga/bojpawnapi:0.0.1 .
 
-docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.1 .
+docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.3 .
 ```
 
 
