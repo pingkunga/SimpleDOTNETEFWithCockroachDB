@@ -8,3 +8,5 @@ readme.md
 **/Dockerfile*
 **/.dockerignore*
 **/*.user
+.vscode/
+.yaml

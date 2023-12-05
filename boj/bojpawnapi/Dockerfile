@@ -30,6 +30,6 @@ USER bojapp
 
 COPY --from=build /src/output .
 
-EXPOSE 8080
+#EXPOSE 8080
 
 ENTRYPOINT [ "dotnet", "bojpawnapi.dll" ]
