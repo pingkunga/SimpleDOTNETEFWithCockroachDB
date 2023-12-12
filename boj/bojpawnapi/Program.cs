@@ -44,5 +44,6 @@ app.MapControllers();
 
 app.MapHealthChecks("/health/ready");
 app.MapHealthChecks("/health/startup", new HealthCheckOptions { Predicate = x => x.Tags.Contains("startup") });        
+//กรณีที่ microservice อื่นๆ ให้ทำ Custom HealhCheck Class 
 
 app.Run();

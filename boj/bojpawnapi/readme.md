@@ -92,6 +92,14 @@ dotnet ef migrations add secodtmigration
 ## Health Check
 
 * https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
+* https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks/blob/master/doc/kubernetes-liveness.md
+* https://github.com/Xabaril/AspNetCore.Diagnostics.HealthChecks
+* https://stackoverflow.com/questions/60142080/dotnet-core-healthchecks-postgres-connectionstring-query
+* https://www.davidguida.net/health-checks-with-asp-net-core-and-kubernetes/
+* https://blog.devart.com/how-to-implement-health-checks-in-asp-net-6.html
+
+ดูไม่เกี่ยวกับ health check แต่เป็นการอ่าน connection string จาก appsettings.json
+* https://code-maze.com/dotnet-read-connection-strings/
 
 ```bash
 https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/health-checks?view=aspnetcore-7.0
