@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using bojpawnapi.Service;
 using bojpawnapi.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bojpawnapi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;

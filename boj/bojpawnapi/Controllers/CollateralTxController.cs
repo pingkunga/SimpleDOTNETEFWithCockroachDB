@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using bojpawnapi.Service;
 using bojpawnapi.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace bojpawnapi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class CollateralsTxController : ControllerBase
     {
         private readonly ICollateralTxService _collateralTxService;

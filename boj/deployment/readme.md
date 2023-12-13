@@ -1,7 +1,7 @@
 # App
 
 ```
-kubectl create configmap bojpawnapiconfig --from-file=../../bojpawnapi/appsettings.json -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapiconfig.yaml
+kubectl create configmap bojpawnapiconfig --from-file=../../bojpawnapi/appsettings.json --from-file=../../bojpawnapi/appsettings.Development.json -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapiconfig.yaml
 
 kubectl create deployment bojpawnapi --image=pingkunga/bojpawnapi:0.0.3 -n group-1-bojdev --dry-run=client -o yaml > dev_bojpawnapi.yaml
 

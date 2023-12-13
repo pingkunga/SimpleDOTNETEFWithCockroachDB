@@ -1,6 +1,6 @@
 #dotnet 7 docker multistate build
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /src
 
 COPY *.csproj ./
@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -o output
 
 
 # Serve stage
-FROM mcr.microsoft.com/dotnet/aspnet:7.0-alpine AS serve
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS serve
 WORKDIR /app
 
 # For Alpine Image
@@ -33,6 +33,11 @@ COPY --from=build /src/output .
 #For NET 6-7 
 #Default NET8 is 8080
 ENV ASPNETCORE_URLS=http://+:8090
+
+#ASPNETCORE_HTTPS_PORT Required Certfile
+#ENV ASPNETCORE_URLS=https://+:8091;http://+:8090
+#ENV ASPNETCORE_HTTPS_PORT=8091
+
 EXPOSE 8090
 
 ENTRYPOINT [ "dotnet", "bojpawnapi.dll" ]

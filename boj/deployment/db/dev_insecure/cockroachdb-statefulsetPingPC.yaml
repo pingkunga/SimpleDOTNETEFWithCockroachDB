@@ -180,7 +180,6 @@ spec:
     spec:
       accessModes:
         - "ReadWriteOnce"
-      storageClassName: boj-local-storage   #ping mo
       resources:
         requests:
           storage: 4Gi #ping mo

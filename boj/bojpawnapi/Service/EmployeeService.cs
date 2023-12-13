@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using AutoMapper;
 using bojpawnapi.Entities;
+using bojpawnapi.Service.Auth;
+using bojpawnapi.DTO.Auth;
+using bojpawnapi.Common.Auth;
 
 namespace bojpawnapi.Service
 {
@@ -12,10 +15,12 @@ namespace bojpawnapi.Service
     {
         private readonly PawnDBContext _context;
         private readonly IMapper _mapper;
-        public EmployeeService(PawnDBContext context, IMapper mapper)
+        private readonly IAuthService _authService;
+        public EmployeeService(PawnDBContext context, IMapper mapper, IAuthService authService)
         {
             _context = context;
             _mapper = mapper;
+            _authService = authService;
         }
 
         public async Task<EmployeeDTO> GetEmployeeByIdAsync(int id)

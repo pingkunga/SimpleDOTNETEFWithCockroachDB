@@ -74,6 +74,10 @@ dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add package Microsoft.EntityFrameworkCore.Design
 dotnet add package Microsoft.EntityFrameworkCore.Tools
 dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection 
+
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 8.0.0
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 8.0.0
+
 ```
 
 ## EF Command
@@ -207,3 +211,19 @@ response
 ```
 
 ```
+
+
+curl -X 'POST' \
+  'https://localhost:7021/api/Employee' \
+  -H 'accept: text/plain' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "idCardNo": "1234456",
+  "firstName": "pingkunga",
+  "lastName": "pingkunga",
+  "address": "pingkunga",
+  "email": "pingkungb@gmail.com",
+  "employeeId": 0,
+  "username": "pingkunga",
+  "password": "Invs$erver@pwd01"
+}'

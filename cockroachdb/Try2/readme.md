@@ -5,24 +5,33 @@ https://dzone.com/articles/3-ways-to-install-cockroachdb-binary-docker-or-kub
 
 ```bash
 cd try1
-kubectl create namespace g1dev
+kubectl create namespace group-1-bojdev
+#Only TCC01
+kubectl apply -f .\bojsc.yaml
+#Only TCC01
+kubectl apply -f .\bojpv_a.yaml
+kubectl apply -f .\bojpv_b.yaml
 
-kubectl apply -f cockroachdb-statefulset.yaml -n g1dev
 
-kubectl get pods -n g1dev
 
-kubectl get pv -n g1dev
+kubectl apply -f cockroachdb-statefulset.yaml -n group-1-bojdev
+
+kubectl get pods -n group-1-bojdev
+
+kubectl get pv,pvc -n group-1-bojdev
+
+kubectl get pods,pv,pvc -n group-1-bojdev
 
 ```
 
 # init cluster
 
 ```bash
-kubectl apply -f cluster-init.yaml -n g1dev
+kubectl apply -f cluster-init.yaml -n group-1-bojdev
 
-kubectl get job cluster-init -n g1dev
+kubectl get job cluster-init -n group-1-bojdev
 
-kubectl get pods -n g1dev
+kubectl get pods -n group-1-bojdev
 ```
 
 # access 
@@ -30,13 +39,13 @@ kubectl get pods -n g1dev
 Local SQL Client
 
 ```bash
-kubectl run cockroachdb -it --image=cockroachdb/cockroach:v23.1.11 -n g1dev --rm --restart=Never -- sql --insecure --host=cockroachdb-public
+kubectl run cockroachdb -it --image=cockroachdb/cockroach:v23.1.11 -n group-1-bojdev --rm --restart=Never -- sql --insecure --host=cockroachdb-public
 ```
 
 Web GUI
 
 ```bash
-kubectl port-forward service/cockroachdb-public 8080 -n g1dev
+kubectl port-forward service/cockroachdb-public 8080 -n group-1-bojdev
 ```
 
 Web GUI : https://localhost:8080
@@ -44,7 +53,7 @@ Web GUI : https://localhost:8080
 Access DB
 
 ```bash
-kubectl port-forward service/cockroachdb-public 26257 -n g1dev
+kubectl port-forward service/cockroachdb-public 26257 -n group-1-bojdev
 ```
 
 Type     Reason            Age                  From               Message

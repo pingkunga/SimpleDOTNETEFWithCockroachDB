@@ -3,18 +3,26 @@ using System.ComponentModel.DataAnnotations;
 using bojpawnapi.Service;
 using bojpawnapi.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using bojpawnapi.Service.Auth;
+using bojpawnapi.DTO.Auth;
+using bojpawnapi.Common.Auth;
 
 namespace bojpawnapi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
+        
+        private readonly IAuthService _authService;
 
-        public EmployeeController(IEmployeeService pEmployeeService)
+        public EmployeeController(IEmployeeService pEmployeeService, IAuthService pAuthService)
         {
             _employeeService = pEmployeeService;
+            _authService = pAuthService;
         }
 
         // GET: api/Employees
@@ -82,6 +90,25 @@ namespace bojpawnapi.Controller
         [HttpPost]
         public async Task<ActionResult<EmployeeDTO>> PostEmployee(EmployeeDTO employee)
         {
+            var (status, message) = await _authService.Registration(new RegistrationDTO
+            {
+                Username = employee.Username,
+                Password = employee.Password,
+                Email = employee.Email
+            }, UserRoles.Employee);
+
+            if (status == 0)
+            {
+                var response = new APIResponseDTO<EmployeeDTO>
+                {
+                    Code = "E400-002-03",
+                    Message = message,
+                    Description = "Request successful",
+                    Timestamp = DateTime.UtcNow
+                };
+                return StatusCode(Microsoft.AspNetCore.Http.StatusCodes.Status400BadRequest, response);
+            }
+
             var result = await _employeeService.AddEmployeeAsync(employee);
             if (result != null)
             {

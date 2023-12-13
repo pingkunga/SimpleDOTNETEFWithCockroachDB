@@ -16,6 +16,9 @@ kubectl apply -f .\bojpv_b.yaml
 
 kubectl apply -f cockroachdb-statefulset.yaml -n group-1-bojdev
 
+For PINGPC
+#kubectl apply -f cockroachdb-statefulsetPingPC.yaml -n group-1-bojdev
+
 kubectl get pods -n group-1-bojdev
 
 kubectl get pv,pvc -n group-1-bojdev

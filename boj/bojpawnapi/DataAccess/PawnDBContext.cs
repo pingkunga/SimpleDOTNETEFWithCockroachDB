@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using bojpawnapi.Entities;
+using bojpawnapi.Entities.Auth;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace bojpawnapi.DataAccess
 {
-    public class PawnDBContext: DbContext 
+    public class PawnDBContext: IdentityDbContext<ApplicationUserEntities> 
     {
         public DbSet<EmployeeEntities> Employees { get; set; }
         public DbSet<CustomerEntities> Customers  { get; set; }
