@@ -56,7 +56,11 @@ docker buildx build --load --platform linux/arm64 -t pingkunga/bojpawnapi:0.0.1 
 ```
 docker buildx build --push --platform linux/amd64,linux/arm64 -t pingkunga/bojpawnapi:0.0.1 .
 
-docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.0.4 .
+docker buildx build --push --platform linux/amd64 -t pingkunga/bojpawnapi:0.1.0 .
+
+docker run -p 10600:8090 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojpawnapi:0.1.0
+
+docker run -p 10600:8090 --name bojapi -e ASPNETCORE_ENVIRONMENT=Development pingkunga/bojpawnapi:0.0.4
 ```
 
 

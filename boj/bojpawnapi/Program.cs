@@ -75,6 +75,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 app.Logger.LogInformation("Connection String: " + connString);
+app.Logger.LogInformation("Key String: " + builder.Configuration["JWTKey:Secret"]);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

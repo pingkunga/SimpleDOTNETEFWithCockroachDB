@@ -20,7 +20,9 @@
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "ConnectionStrings__BojPawnDbConnection": "User ID =boj;Server=127.0.0.1;Port=26257;Database=bojpawndb;",
+                "JWTKey__Secret": "Secret from launch.json in VisualStudio Code"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
